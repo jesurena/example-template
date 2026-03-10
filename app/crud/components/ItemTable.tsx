@@ -34,6 +34,7 @@ export default function ItemTable() {
     const createItem = useCreateItem();
     const updateItem = useUpdateItem();
     const deleteItem = useDeleteItem();
+    const [modal, contextHolder] = Modal.useModal();
 
     // Filtered data
     const filteredItems = items.filter(item => {
@@ -80,7 +81,7 @@ export default function ItemTable() {
     };
 
     const handleDeleteItem = (item: Item) => {
-        Modal.confirm({
+        modal.confirm({
             title: 'Delete Item',
             content: `Are you sure you want to delete "${item.name}"? This action cannot be undone.`,
             okText: 'Yes, Delete',
@@ -230,6 +231,7 @@ export default function ItemTable() {
 
     return (
         <div className="relative">
+            {contextHolder}
             <div className="bg-background p-4 pt-2 rounded-2xl border border-border shadow-xl overflow-x-auto">
                 <div className="p-6 border-b border-border flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div className="flex items-center gap-2">
