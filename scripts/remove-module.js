@@ -28,19 +28,25 @@ if (!existsInApp && !existsInSidebar) {
     process.exit(1);
 }
 
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+const isForced = process.argv.includes('--force');
 
-rl.question(`Are you sure you want to remove the module "${inputName}" (${moduleName})? (Y/N): `, (answer) => {
-    if (answer.toLowerCase() === 'y') {
-        performRemoval();
-    } else {
-        console.log('Action cancelled.');
-    }
-    rl.close();
-});
+if (isForced) {
+    performRemoval();
+} else {
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+
+    rl.question(`Are you sure you want to remove the module "${inputName}" (${moduleName})? (Y/N): `, (answer) => {
+        if (answer.toLowerCase() === 'y') {
+            performRemoval();
+        } else {
+            console.log('Action cancelled.');
+        }
+        rl.close();
+    });
+}
 
 function performRemoval() {
     // 1. Remove directory

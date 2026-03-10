@@ -47,6 +47,7 @@ export default function Sidebar() {
                 
                 
                 { name: 'CRUD', href: '/crud', icon: Settings },
+                
                 // MODULE_INSERTION_MARKER
             ]
         }

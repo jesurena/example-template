@@ -43,8 +43,19 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## NPM Scripts
 
+**The easiest way to perform actions is to use the interactive CLI:**
+
+```bash
+npm run cli
+```
+
+This opens a native **arrow-key navigation menu** where you can dynamically scaffold new modules or completely remove existing modules (with nested confirmation screens) without typing or remembering script commands.
+
+Alternatively, you can run individual scripts:
+
 | Script | Command | Description |
 |---|---|---|
+| `cli` | `npm run cli` | **(Recommended)** Interactive menu for all commands |
 | `dev` | `npm run dev` | Start the Next.js development server |
 | `build` | `npm run build` | Build the production bundle |
 | `start` | `npm run start` | Start the production server |
@@ -125,6 +136,7 @@ The project includes a pre-configured Axios instance (`api.ts`). It acts as a gl
 - Automatically route requests to your `NEXT_PUBLIC_API_URL`.
 - Intercept outgoing requests to attach Authentication headers (e.g., Bearer tokens).
 - Intercept incoming responses to handle global API errors (e.g., automatically redirecting to the login page on `401 Unauthorized`).
+- **Auto-Toast Messages**: If the backend returns a `message` property in the JSON payload (usually during POST/PUT/DELETE actions), the interceptor automatically displays it as a global UI notification. Pure `GET` fetches generally should not return a `message` to avoid spamming toasts.
 
 ### 2. React Query Provider (`components/Providers/query-provider.tsx`)
 We use **TanStack React Query** for fetching, caching, and updating asynchronous data. The `QueryProvider`:

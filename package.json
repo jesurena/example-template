@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "cli": "node scripts/cli.js",
     "add-module": "node scripts/add-module.js",
     "remove-module": "node scripts/remove-module.js"
   },
