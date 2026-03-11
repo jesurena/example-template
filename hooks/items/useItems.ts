@@ -21,6 +21,12 @@ const mockItems: Item[] = [
     { id: 4, name: 'Server Migration', description: 'Cloud infrastructure migration plan', category: 'Technology', status: true, createdAt: '2026-02-20' },
     { id: 5, name: 'HR Policy Draft', description: 'Updated employee handbook and policies', category: 'General', status: false, createdAt: '2026-03-01' },
     { id: 6, name: 'Warehouse Audit', description: 'Annual inventory and compliance audit', category: 'Operations', status: true, createdAt: '2026-03-05' },
+    { id: 7, name: 'Project Alpha', description: 'Initial project setup and configuration', category: 'Technology', status: true, createdAt: '2026-01-15' },
+    { id: 8, name: 'Budget Report Q1', description: 'Quarterly financial analysis report', category: 'Finance', status: true, createdAt: '2026-02-01' },
+    { id: 9, name: 'Marketing Campaign', description: 'Spring 2026 digital marketing campaign', category: 'Marketing', status: false, createdAt: '2026-02-10' },
+    { id: 10, name: 'Server Migration', description: 'Cloud infrastructure migration plan', category: 'Technology', status: true, createdAt: '2026-02-20' },
+    { id: 11, name: 'HR Policy Draft', description: 'Updated employee handbook and policies', category: 'General', status: false, createdAt: '2026-03-01' },
+    { id: 12, name: 'Warehouse Audit', description: 'Annual inventory and compliance audit', category: 'Operations', status: true, createdAt: '2026-03-05' },
 ];
 
 // ─── Fetch All Items ─────────────────────────────────────────────────────────

@@ -28,10 +28,10 @@ export default function ${componentName}Layout({
     children: React.ReactNode;
 }) {
     return (
-        <div className="flex flex-col lg:flex-row h-screen overflow-hidden bg-background transition-colors duration-300">
+        <div className="flex flex-col lg:flex-row min-h-screen bg-background transition-colors duration-300">
             <Sidebar />
-            <div className="flex flex-col p-8 flex-1 min-w-0 overflow-hidden relative">
-                <main className="flex-1 overflow-hidden">
+            <div className="flex flex-col p-8 flex-1 min-w-0 relative">
+                <main className="flex-1">
                     {children}
                 </main>
             </div>
