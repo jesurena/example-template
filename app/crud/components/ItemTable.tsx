@@ -12,19 +12,32 @@ import ItemFilterPopover, { ItemFilterValues } from '@/components/Crud/ItemFilte
 import { Item } from '@/interface/item';
 import { useItems, useCreateItem, useUpdateItem, useDeleteItem } from '@/hooks/items/useItems';
 import TableBulkActions from '@/components/Table/TableBulkActions';
+import { useSearchParams } from 'next/navigation';
+import { useTableUrlSync } from '@/hooks/useTableUrlSync';
 
 export default function ItemTable() {
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-    const [searchValue, setSearchValue] = useState('');
-    const [appliedSearch, setAppliedSearch] = useState('');
+    const searchParams = useSearchParams();
 
-    // Filter state
-    const [activeFilters, setActiveFilters] = useState<ItemFilterValues>({
-        category: null,
-        status: null,
+    // Filter states initialized from URL params
+    const [activeFilters, setActiveFilters] = useState<ItemFilterValues>(() => {
+        const statusVal = searchParams.get('status');
+        return {
+            category: searchParams.get('category'),
+            status: statusVal === 'true' ? true : statusVal === 'false' ? false : null,
+        };
     });
 
-    // Modal states
+    const [pagination, setPagination] = useState(() => ({
+        current: Number(searchParams.get('page')) || 1,
+        pageSize: Number(searchParams.get('pageSize')) || 10,
+    }));
+
+    const [searchValue, setSearchValue] = useState(searchParams.get('search') || '');
+    const [appliedSearch, setAppliedSearch] = useState(searchParams.get('search') || '');
+
+    // Sync state with URL
+    useTableUrlSync(activeFilters, appliedSearch, pagination);
     const [selectedItem, setSelectedItem] = useState<Item | null>(null);
     const [isEditModalVisible, setIsEditModalVisible] = useState(false);
     const [isViewModalVisible, setIsViewModalVisible] = useState(false);
@@ -68,6 +81,7 @@ export default function ItemTable() {
         setSearchValue('');
         setAppliedSearch('');
         setActiveFilters({ category: null, status: null });
+        setPagination(prev => ({ ...prev, current: 1 }));
     };
 
     const handleEditItem = (item: Item) => {
@@ -252,6 +266,13 @@ export default function ItemTable() {
         onChange: onSelectChange,
     };
 
+    const handleTableChange = (newPagination: any) => {
+        setPagination({
+            current: newPagination.current,
+            pageSize: newPagination.pageSize,
+        });
+    };
+
     return (
         <div className="relative">
             {contextHolder}
@@ -273,10 +294,12 @@ export default function ItemTable() {
                                 setSearchValue(val);
                                 if (val === '') {
                                     setAppliedSearch('');
+                                    setPagination(prev => ({ ...prev, current: 1 }));
                                 }
                             }}
                             onPressEnter={() => {
                                 setAppliedSearch(searchValue);
+                                setPagination(prev => ({ ...prev, current: 1 }));
                             }}
                             allowClear
                         />
@@ -291,6 +314,7 @@ export default function ItemTable() {
                             currentFilters={activeFilters}
                             onApply={(values) => {
                                 setActiveFilters(values);
+                                setPagination(prev => ({ ...prev, current: 1 }));
                             }}
                         />
                         <Button
@@ -314,10 +338,12 @@ export default function ItemTable() {
                     columns={columns}
                     dataSource={filteredItems}
                     pagination={{
-                        pageSize: 10,
+                        current: pagination.current,
+                        pageSize: pagination.pageSize,
                         showSizeChanger: true,
                         pageSizeOptions: ['10', '20', '50'],
                     }}
+                    onChange={handleTableChange}
                     className="user-management-table cursor-pointer"
                     onRow={(record: Item) => ({
                         onClick: () => handleViewItem(record),
