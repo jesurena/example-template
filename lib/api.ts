@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { notification } from 'antd';
+import { notification } from '@/components/Providers/theme-provider';
 
 const api = axios.create({
     baseURL: process.env.LARAVEL_API_URL || 'http://localhost:8000/api',
-    withCredentials: true,
+    // withCredentials: true, uncomment this later on if you need authentication on request
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -18,7 +18,7 @@ api.interceptors.response.use(
 
         if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method || '') && hasMessage) {
             notification.success({
-                message: 'Success',
+                title: 'Success',
                 description: response.data.message,
                 placement: 'topRight',
             });
@@ -38,7 +38,7 @@ api.interceptors.response.use(
             }
         } else {
             notification.error({
-                message: 'Error',
+                title: 'Error',
                 description: message,
                 placement: 'topRight',
             });
